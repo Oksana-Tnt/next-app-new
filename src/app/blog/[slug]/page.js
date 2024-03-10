@@ -7,7 +7,9 @@ import { getPost } from "@/lib/data";
 
 //Fetch data with an ATP
 const getData = async (slug) => {
-  const res = await fetch(` http://localhost:3000/api/blog/${slug}`);
+  const res = await fetch(
+    ` https://next-app-new-iota.vercel.app/api/blog/${slug}`
+  );
   if (!res.ok) {
     throw new Error("Something went wrong");
   }

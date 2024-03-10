@@ -5,7 +5,7 @@ import { getPosts } from "@/lib/data";
 
 //Fetch data with an API
 const getData = async () => {
-  const res = await fetch("http://localhost:3000/api/blog", {
+  const res = await fetch("https://next-app-new-iota.vercel.app/api/blog", {
     next: { revalidate: 3600 },
   });
   if (!res.ok) {
