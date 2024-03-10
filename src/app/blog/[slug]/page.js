@@ -1,23 +1,23 @@
-/* eslint-disable jsx-a11y/alt-text */
-import React, { Suspense } from "react";
-import style from "./singlePost.module.css";
 import Image from "next/image";
+import styles from "./singlePost.module.css";
 import PostUser from "@/components/postUser/postUser";
+import { Suspense } from "react";
 import { getPost } from "@/lib/data";
 
-//Fetch data with an ATP
+// FETCH DATA WITH AN API
 const getData = async (slug) => {
-  const res = await fetch(
-    ` https://next-app-new-iota.vercel.app/api/blog/${slug}`
-  );
+  const res = await fetch(`http://localhost:3000/api/blog/${slug}`);
+
   if (!res.ok) {
     throw new Error("Something went wrong");
   }
+
   return res.json();
 };
 
 export const generateMetadata = async ({ params }) => {
   const { slug } = params;
+
   const post = await getPost(slug);
 
   return {
@@ -29,32 +29,35 @@ export const generateMetadata = async ({ params }) => {
 const SinglePostPage = async ({ params }) => {
   const { slug } = params;
 
-  //Fetch data with an API
+  // FETCH DATA WITH AN API
   const post = await getData(slug);
 
-  //Fetch datat without an API
+  // FETCH DATA WITHOUT AN API
   // const post = await getPost(slug);
-  console.log(post);
 
   return (
-    <div className={style.container}>
+    <div className={styles.container}>
       {post.img && (
-        <div className={style.imgContainer}>
-          <Image src={post.img} fill alt="" className={style.img} />
+        <div className={styles.imgContainer}>
+          <Image src={post.img} alt="" fill className={styles.img} />
         </div>
       )}
-      <div className={style.textContainer}>
-        <h1 className={style.title}>{post.title}</h1>
-        <div className={style.detail}>
-          <Suspense fallback={<div>Loading...</div>}>
-            <PostUser userId={post.userId} />
-          </Suspense>
-          <div className={style.detailText}>
-            <span className={style.detailTitle}>Published</span>
-            <span className={style.detailValue}>{post.data}</span>
+      <div className={styles.textContainer}>
+        <h1 className={styles.title}>{post.title}</h1>
+        <div className={styles.detail}>
+          {post && (
+            <Suspense fallback={<div>Loading...</div>}>
+              <PostUser userId={post.userId} />
+            </Suspense>
+          )}
+          <div className={styles.detailText}>
+            <span className={styles.detailTitle}>Published</span>
+            <span className={styles.detailValue}>
+              {post.createdAt.toString().slice(4, 16)}
+            </span>
           </div>
         </div>
-        <div className={style.contant}>{post.desc}</div>
+        <div className={styles.content}>{post.desc}</div>
       </div>
     </div>
   );

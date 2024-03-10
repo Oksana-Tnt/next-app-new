@@ -1,29 +1,31 @@
-import React from "react";
-import style from "./blog.module.css";
 import PostCard from "@/components/postCard/postCard";
+import styles from "./blog.module.css";
 import { getPosts } from "@/lib/data";
 
-//Fetch data with an API
+// FETCH DATA WITH AN API
 const getData = async () => {
-  const res = await fetch("https://next-app-new-iota.vercel.app/api/blog", {
+  const res = await fetch("http://localhost:3000/api/blog", {
     next: { revalidate: 3600 },
   });
+
   if (!res.ok) {
     throw new Error("Something went wrong");
   }
+
   return res.json();
 };
 
 const BlogPage = async () => {
-  //Fetch data with an API
+  // FETCH DATA WITH AN API
   const posts = await getData();
 
-  //Fetch data without an API
+  // FETCH DATA WITHOUT AN API
   // const posts = await getPosts();
+
   return (
-    <div className={style.container}>
+    <div className={styles.container}>
       {posts.map((post) => (
-        <div className={style.post} key={post.id}>
+        <div className={styles.post} key={post.id}>
           <PostCard post={post} />
         </div>
       ))}
