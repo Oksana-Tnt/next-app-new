@@ -46,7 +46,7 @@ const Links = ({ session }) => {
             </form>
           </>
         ) : (
-          <NavLink item={{ title: "Login", path: "/login" }} />
+          <NavLink item={{ title: "Login", path: "/logIn" }} />
         )}
       </div>
       <Image
