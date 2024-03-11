@@ -89,7 +89,7 @@ export const handleLogout = async () => {
   await signOut();
 };
 
-export const register = async (formData) => {
+export const register = async (previousState, formData) => {
   const { username, email, password, img, passwordRepeat } =
     Object.fromEntries(formData);
   if (password !== passwordRepeat) {
@@ -115,7 +115,7 @@ export const register = async (formData) => {
 
     await newUser.save();
     console.log("Saved in db");
-
+    console.log(newUser);
     return { success: true };
   } catch (error) {
     console.log(error);
